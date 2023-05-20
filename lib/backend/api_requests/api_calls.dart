@@ -12,7 +12,7 @@ const _kPrivateApiFunctionName = 'ffPrivateApiCall';
 /// Start RegistrosSensores Group Code
 
 class RegistrosSensoresGroup {
-  static String baseUrl = 'http://greeninhouse:5000/api/v1/RegistrosSensores';
+  static String baseUrl = 'http://192.168.1.27:5000/api/v1/RegistrosSensores';
   static Map<String, String> headers = {};
   static GetRegistroSensorOneCall getRegistroSensorOneCall =
       GetRegistroSensorOneCall();
