@@ -1021,44 +1021,6 @@ class _HomePageWidgetState extends State<HomePageWidget>
                             },
                           ),
                         ),
-                        Container(
-                          width: 370.0,
-                          height: 230.0,
-                          child: FlutterFlowLineChart(
-                            data: [
-                              FFLineChartData(
-                                xData: getJsonField(
-                                  containerGetRegistroSensorAllResponse
-                                      .jsonBody,
-                                  r'''$.fecha''',
-                                ),
-                                yData: getJsonField(
-                                  containerGetRegistroSensorAllResponse
-                                      .jsonBody,
-                                  r'''$.valor''',
-                                ),
-                                settings: LineChartBarData(
-                                  color: FlutterFlowTheme.of(context).primary,
-                                  barWidth: 2.0,
-                                  isCurved: true,
-                                  dotData: FlDotData(show: false),
-                                  belowBarData: BarAreaData(
-                                    show: true,
-                                    color: FlutterFlowTheme.of(context).accent1,
-                                  ),
-                                ),
-                              )
-                            ],
-                            chartStylingInfo: ChartStylingInfo(
-                              backgroundColor: FlutterFlowTheme.of(context)
-                                  .secondaryBackground,
-                              showBorder: false,
-                            ),
-                            axisBounds: AxisBounds(),
-                            xAxisLabelInfo: AxisLabelInfo(),
-                            yAxisLabelInfo: AxisLabelInfo(),
-                          ),
-                        ),
                       ],
                     ),
                   );
