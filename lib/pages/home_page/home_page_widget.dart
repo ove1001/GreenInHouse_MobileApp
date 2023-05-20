@@ -696,7 +696,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                 Text(
                                   getJsonField(
                                     registroItem,
-                                    r'''$[:].id__''',
+                                    r'''$.id__''',
                                   ).toString(),
                                   style:
                                       FlutterFlowTheme.of(context).bodyMedium,
@@ -704,7 +704,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                 Text(
                                   getJsonField(
                                     registroItem,
-                                    r'''$[:].numero_sensor''',
+                                    r'''$.numero_sensor''',
                                   ).toString(),
                                   style:
                                       FlutterFlowTheme.of(context).bodyMedium,
@@ -712,7 +712,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                 Text(
                                   getJsonField(
                                     registroItem,
-                                    r'''$[:].valor''',
+                                    r'''$.valor''',
                                   ).toString(),
                                   style:
                                       FlutterFlowTheme.of(context).bodyMedium,
