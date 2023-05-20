@@ -7,16 +7,16 @@ import '/flutter_flow/flutter_flow_util.dart';
 
 class ZonaSensorStruct extends BaseStruct {
   ZonaSensorStruct({
-    String? str,
+    String? nombre,
     String? tipo,
-  })  : _str = str,
+  })  : _nombre = nombre,
         _tipo = tipo;
 
-  // "str" field.
-  String? _str;
-  String get str => _str ?? '';
-  set str(String? val) => _str = val;
-  bool hasStr() => _str != null;
+  // "nombre" field.
+  String? _nombre;
+  String get nombre => _nombre ?? '';
+  set nombre(String? val) => _nombre = val;
+  bool hasNombre() => _nombre != null;
 
   // "tipo" field.
   String? _tipo;
@@ -26,7 +26,7 @@ class ZonaSensorStruct extends BaseStruct {
 
   static ZonaSensorStruct fromMap(Map<String, dynamic> data) =>
       ZonaSensorStruct(
-        str: data['str'] as String?,
+        nombre: data['nombre'] as String?,
         tipo: data['tipo'] as String?,
       );
 
@@ -34,14 +34,14 @@ class ZonaSensorStruct extends BaseStruct {
       data is Map<String, dynamic> ? ZonaSensorStruct.fromMap(data) : null;
 
   Map<String, dynamic> toMap() => {
-        'str': _str,
+        'nombre': _nombre,
         'tipo': _tipo,
       }.withoutNulls;
 
   @override
   Map<String, dynamic> toSerializableMap() => {
-        'str': serializeParam(
-          _str,
+        'nombre': serializeParam(
+          _nombre,
           ParamType.String,
         ),
         'tipo': serializeParam(
@@ -52,8 +52,8 @@ class ZonaSensorStruct extends BaseStruct {
 
   static ZonaSensorStruct fromSerializableMap(Map<String, dynamic> data) =>
       ZonaSensorStruct(
-        str: deserializeParam(
-          data['str'],
+        nombre: deserializeParam(
+          data['nombre'],
           ParamType.String,
           false,
         ),
@@ -69,10 +69,10 @@ class ZonaSensorStruct extends BaseStruct {
 }
 
 ZonaSensorStruct createZonaSensorStruct({
-  String? str,
+  String? nombre,
   String? tipo,
 }) =>
     ZonaSensorStruct(
-      str: str,
+      nombre: nombre,
       tipo: tipo,
     );
