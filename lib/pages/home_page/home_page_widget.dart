@@ -13,7 +13,6 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
 import 'home_page_model.dart';
 export 'home_page_model.dart';
@@ -903,56 +902,12 @@ class _HomePageWidgetState extends State<HomePageWidget>
                   ),
                 ),
               ),
-              Container(
-                height: 200.0,
-                child: PagedListView<ApiPagingParams, dynamic>(
-                  pagingController: () {
-                    if (_model.pagingController != null) {
-                      return _model.pagingController!;
-                    }
-
-                    _model.pagingController = PagingController(
-                      firstPageKey: ApiPagingParams(
-                        nextPageNumber: 0,
-                        numItems: 0,
-                        lastResponse: null,
-                      ),
-                    );
-                    _model.pagingController!
-                        .addPageRequestListener((nextPageMarker) {
-                      RegistrosSensoresGroup.getRegistroSensorAllCall
-                          .call()
-                          .then((listViewGetRegistroSensorAllResponse) {
-                        final pageItems =
-                            (listViewGetRegistroSensorAllResponse.jsonBody ??
-                                    [])
-                                .take(200 - nextPageMarker.numItems)
-                                .toList() as List;
-                        final newNumItems =
-                            nextPageMarker.numItems + pageItems.length;
-                        _model.pagingController!.appendPage(
-                          pageItems,
-                          (pageItems.length > 0) && newNumItems < 200
-                              ? ApiPagingParams(
-                                  nextPageNumber:
-                                      nextPageMarker.nextPageNumber + 1,
-                                  numItems: newNumItems,
-                                  lastResponse:
-                                      listViewGetRegistroSensorAllResponse,
-                                )
-                              : null,
-                        );
-                      });
-                    });
-                    return _model.pagingController!;
-                  }(),
-                  padding: EdgeInsets.zero,
-                  shrinkWrap: true,
-                  reverse: false,
-                  scrollDirection: Axis.vertical,
-                  builderDelegate: PagedChildBuilderDelegate<dynamic>(
-                    // Customize what your widget looks like when it's loading the first page.
-                    firstPageProgressIndicatorBuilder: (_) => Center(
+              FutureBuilder<ApiCallResponse>(
+                future: RegistrosSensoresGroup.getRegistroSensorAllCall.call(),
+                builder: (context, snapshot) {
+                  // Customize what your widget looks like when it's loading.
+                  if (!snapshot.hasData) {
+                    return Center(
                       child: SizedBox(
                         width: 50.0,
                         height: 50.0,
@@ -960,82 +915,154 @@ class _HomePageWidgetState extends State<HomePageWidget>
                           color: FlutterFlowTheme.of(context).primary,
                         ),
                       ),
-                    ),
-
-                    itemBuilder: (context, _, listaRegistrosIndex) {
-                      final listaRegistrosItem = _model
-                          .pagingController!.itemList![listaRegistrosIndex];
-                      return Container(
-                        width: 100.0,
-                        height: 100.0,
-                        decoration: BoxDecoration(
-                          color:
-                              FlutterFlowTheme.of(context).secondaryBackground,
+                    );
+                  }
+                  final containerGetRegistroSensorAllResponse = snapshot.data!;
+                  return Container(
+                    height: 500.0,
+                    decoration: BoxDecoration(),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Expanded(
+                          child: Builder(
+                            builder: (context) {
+                              final listaRegistros =
+                                  containerGetRegistroSensorAllResponse.jsonBody
+                                      .toList()
+                                      .take(200)
+                                      .toList();
+                              return ListView.builder(
+                                padding: EdgeInsets.zero,
+                                shrinkWrap: true,
+                                scrollDirection: Axis.vertical,
+                                itemCount: listaRegistros.length,
+                                itemBuilder: (context, listaRegistrosIndex) {
+                                  final listaRegistrosItem =
+                                      listaRegistros[listaRegistrosIndex];
+                                  return Container(
+                                    width: 100.0,
+                                    height: 100.0,
+                                    decoration: BoxDecoration(
+                                      color: FlutterFlowTheme.of(context)
+                                          .secondaryBackground,
+                                    ),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        Expanded(
+                                          child: Text(
+                                            getJsonField(
+                                              listaRegistrosItem,
+                                              r'''$.id''',
+                                            ).toString(),
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodyMedium,
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                            getJsonField(
+                                              listaRegistrosItem,
+                                              r'''$.valor''',
+                                            ).toString().maybeHandleOverflow(
+                                                maxChars: 5),
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodyMedium,
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                            getJsonField(
+                                              listaRegistrosItem,
+                                              r'''$.unidad_medida.nombre''',
+                                            ).toString(),
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodyMedium,
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                            getJsonField(
+                                              listaRegistrosItem,
+                                              r'''$.tipo_sensor.nombre''',
+                                            ).toString(),
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodyMedium,
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                            getJsonField(
+                                              listaRegistrosItem,
+                                              r'''$.zona_sensor.nombre''',
+                                            ).toString(),
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodyMedium,
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                            getJsonField(
+                                              listaRegistrosItem,
+                                              r'''$.numero_sensor''',
+                                            ).toString(),
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodyMedium,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                          ),
                         ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Expanded(
-                              child: Text(
-                                getJsonField(
-                                  listaRegistrosItem,
-                                  r'''$.id''',
-                                ).toString(),
-                                style: FlutterFlowTheme.of(context).bodyMedium,
-                              ),
-                            ),
-                            Expanded(
-                              child: Text(
-                                getJsonField(
-                                  listaRegistrosItem,
+                        Container(
+                          width: 370.0,
+                          height: 230.0,
+                          child: FlutterFlowLineChart(
+                            data: [
+                              FFLineChartData(
+                                xData: getJsonField(
+                                  containerGetRegistroSensorAllResponse
+                                      .jsonBody,
+                                  r'''$.fecha''',
+                                ),
+                                yData: getJsonField(
+                                  containerGetRegistroSensorAllResponse
+                                      .jsonBody,
                                   r'''$.valor''',
-                                ).toString().maybeHandleOverflow(maxChars: 5),
-                                style: FlutterFlowTheme.of(context).bodyMedium,
-                              ),
+                                ),
+                                settings: LineChartBarData(
+                                  color: FlutterFlowTheme.of(context).primary,
+                                  barWidth: 2.0,
+                                  isCurved: true,
+                                  dotData: FlDotData(show: false),
+                                  belowBarData: BarAreaData(
+                                    show: true,
+                                    color: FlutterFlowTheme.of(context).accent1,
+                                  ),
+                                ),
+                              )
+                            ],
+                            chartStylingInfo: ChartStylingInfo(
+                              backgroundColor: FlutterFlowTheme.of(context)
+                                  .secondaryBackground,
+                              showBorder: false,
                             ),
-                            Expanded(
-                              child: Text(
-                                getJsonField(
-                                  listaRegistrosItem,
-                                  r'''$.unidad_medida.nombre''',
-                                ).toString(),
-                                style: FlutterFlowTheme.of(context).bodyMedium,
-                              ),
-                            ),
-                            Expanded(
-                              child: Text(
-                                getJsonField(
-                                  listaRegistrosItem,
-                                  r'''$.tipo_sensor.nombre''',
-                                ).toString(),
-                                style: FlutterFlowTheme.of(context).bodyMedium,
-                              ),
-                            ),
-                            Expanded(
-                              child: Text(
-                                getJsonField(
-                                  listaRegistrosItem,
-                                  r'''$.zona_sensor.nombre''',
-                                ).toString(),
-                                style: FlutterFlowTheme.of(context).bodyMedium,
-                              ),
-                            ),
-                            Expanded(
-                              child: Text(
-                                getJsonField(
-                                  listaRegistrosItem,
-                                  r'''$.numero_sensor''',
-                                ).toString(),
-                                style: FlutterFlowTheme.of(context).bodyMedium,
-                              ),
-                            ),
-                          ],
+                            axisBounds: AxisBounds(),
+                            xAxisLabelInfo: AxisLabelInfo(),
+                            yAxisLabelInfo: AxisLabelInfo(),
+                          ),
                         ),
-                      );
-                    },
-                  ),
-                ),
+                      ],
+                    ),
+                  );
+                },
               ),
             ],
           ),

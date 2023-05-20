@@ -13,7 +13,6 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
 
 class HomePageModel extends FlutterFlowModel {
@@ -41,8 +40,6 @@ class HomePageModel extends FlutterFlowModel {
   late SnackTileModel snackTileModel5;
   // Model for SnackTile component.
   late SnackTileModel snackTileModel6;
-  // State field(s) for ListView widget.
-  PagingController<ApiPagingParams, dynamic>? pagingController;
 
   /// Initialization and disposal methods.
 
