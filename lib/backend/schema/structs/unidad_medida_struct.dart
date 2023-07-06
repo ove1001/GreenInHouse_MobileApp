@@ -66,6 +66,16 @@ class UnidadMedidaStruct extends BaseStruct {
 
   @override
   String toString() => 'UnidadMedidaStruct(${toMap()})';
+
+  @override
+  bool operator ==(Object other) {
+    return other is UnidadMedidaStruct &&
+        nombre == other.nombre &&
+        tipo == other.tipo;
+  }
+
+  @override
+  int get hashCode => const ListEquality().hash([nombre, tipo]);
 }
 
 UnidadMedidaStruct createUnidadMedidaStruct({

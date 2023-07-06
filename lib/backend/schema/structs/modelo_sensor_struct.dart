@@ -5,8 +5,8 @@ import '/backend/schema/util/schema_util.dart';
 import 'index.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 
-class ZonaSensorStruct extends BaseStruct {
-  ZonaSensorStruct({
+class ModeloSensorStruct extends BaseStruct {
+  ModeloSensorStruct({
     String? nombre,
     String? tipo,
   })  : _nombre = nombre,
@@ -24,14 +24,14 @@ class ZonaSensorStruct extends BaseStruct {
   set tipo(String? val) => _tipo = val;
   bool hasTipo() => _tipo != null;
 
-  static ZonaSensorStruct fromMap(Map<String, dynamic> data) =>
-      ZonaSensorStruct(
+  static ModeloSensorStruct fromMap(Map<String, dynamic> data) =>
+      ModeloSensorStruct(
         nombre: data['nombre'] as String?,
         tipo: data['tipo'] as String?,
       );
 
-  static ZonaSensorStruct? maybeFromMap(dynamic data) =>
-      data is Map<String, dynamic> ? ZonaSensorStruct.fromMap(data) : null;
+  static ModeloSensorStruct? maybeFromMap(dynamic data) =>
+      data is Map<String, dynamic> ? ModeloSensorStruct.fromMap(data) : null;
 
   Map<String, dynamic> toMap() => {
         'nombre': _nombre,
@@ -50,8 +50,8 @@ class ZonaSensorStruct extends BaseStruct {
         ),
       }.withoutNulls;
 
-  static ZonaSensorStruct fromSerializableMap(Map<String, dynamic> data) =>
-      ZonaSensorStruct(
+  static ModeloSensorStruct fromSerializableMap(Map<String, dynamic> data) =>
+      ModeloSensorStruct(
         nombre: deserializeParam(
           data['nombre'],
           ParamType.String,
@@ -65,11 +65,11 @@ class ZonaSensorStruct extends BaseStruct {
       );
 
   @override
-  String toString() => 'ZonaSensorStruct(${toMap()})';
+  String toString() => 'ModeloSensorStruct(${toMap()})';
 
   @override
   bool operator ==(Object other) {
-    return other is ZonaSensorStruct &&
+    return other is ModeloSensorStruct &&
         nombre == other.nombre &&
         tipo == other.tipo;
   }
@@ -78,11 +78,11 @@ class ZonaSensorStruct extends BaseStruct {
   int get hashCode => const ListEquality().hash([nombre, tipo]);
 }
 
-ZonaSensorStruct createZonaSensorStruct({
+ModeloSensorStruct createModeloSensorStruct({
   String? nombre,
   String? tipo,
 }) =>
-    ZonaSensorStruct(
+    ModeloSensorStruct(
       nombre: nombre,
       tipo: tipo,
     );

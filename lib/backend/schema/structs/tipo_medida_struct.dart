@@ -66,6 +66,16 @@ class TipoMedidaStruct extends BaseStruct {
 
   @override
   String toString() => 'TipoMedidaStruct(${toMap()})';
+
+  @override
+  bool operator ==(Object other) {
+    return other is TipoMedidaStruct &&
+        nombre == other.nombre &&
+        tipo == other.tipo;
+  }
+
+  @override
+  int get hashCode => const ListEquality().hash([nombre, tipo]);
 }
 
 TipoMedidaStruct createTipoMedidaStruct({

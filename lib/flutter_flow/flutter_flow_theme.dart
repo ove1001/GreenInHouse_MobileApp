@@ -3,9 +3,31 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:shared_preferences/shared_preferences.dart';
+
+const kThemeModeKey = '__theme_mode__';
+SharedPreferences? _prefs;
+
 abstract class FlutterFlowTheme {
+  static Future initialize() async =>
+      _prefs = await SharedPreferences.getInstance();
+  static ThemeMode get themeMode {
+    final darkMode = _prefs?.getBool(kThemeModeKey);
+    return darkMode == null
+        ? ThemeMode.system
+        : darkMode
+            ? ThemeMode.dark
+            : ThemeMode.light;
+  }
+
+  static void saveThemeMode(ThemeMode mode) => mode == ThemeMode.system
+      ? _prefs?.remove(kThemeModeKey)
+      : _prefs?.setBool(kThemeModeKey, mode == ThemeMode.dark);
+
   static FlutterFlowTheme of(BuildContext context) {
-    return LightModeTheme();
+    return Theme.of(context).brightness == Brightness.dark
+        ? DarkModeTheme()
+        : LightModeTheme();
   }
 
   @Deprecated('Use primary instead')
@@ -31,14 +53,6 @@ abstract class FlutterFlowTheme {
   late Color warning;
   late Color error;
   late Color info;
-
-  late Color lineColor;
-  late Color lightCoral;
-  late Color azureWeb;
-  late Color raisinBlack;
-  late Color ebony;
-  late Color persianGreen;
-  late Color white;
 
   @Deprecated('Use displaySmallFamily instead')
   String get title1Family => displaySmallFamily;
@@ -111,30 +125,22 @@ class LightModeTheme extends FlutterFlowTheme {
   @Deprecated('Use tertiary instead')
   Color get tertiaryColor => tertiary;
 
-  late Color primary = const Color(0xFF1B998B);
-  late Color secondary = const Color(0xFF60695C);
-  late Color tertiary = const Color(0xFFEF767A);
-  late Color alternate = const Color(0xFF6DABA2);
-  late Color primaryText = const Color(0xFF101213);
-  late Color secondaryText = const Color(0xFF9D9D9D);
-  late Color primaryBackground = const Color(0xFFECF1EF);
+  late Color primary = const Color(0xFF4B39EF);
+  late Color secondary = const Color(0xFF39D2C0);
+  late Color tertiary = const Color(0xFFEE8B60);
+  late Color alternate = const Color(0xFFE0E3E7);
+  late Color primaryText = const Color(0xFF14181B);
+  late Color secondaryText = const Color(0xFF57636C);
+  late Color primaryBackground = const Color(0xFFF1F4F8);
   late Color secondaryBackground = const Color(0xFFFFFFFF);
-  late Color accent1 = const Color(0xFFD0E0DE);
-  late Color accent2 = const Color(0xFFAAAAAA);
-  late Color accent3 = const Color(0xFFE0E0E0);
-  late Color accent4 = const Color(0xFFEEEEEE);
-  late Color success = const Color(0xFF04A24C);
-  late Color warning = const Color(0xFFFCDC0C);
-  late Color error = const Color(0xFFE21C3D);
-  late Color info = const Color(0xFF1C4494);
-
-  late Color lineColor = Color(0xFFE0E3E7);
-  late Color lightCoral = Color(0xFFEF767A);
-  late Color azureWeb = Color(0xFFEBFDFF);
-  late Color raisinBlack = Color(0xFF1A1423);
-  late Color ebony = Color(0xFF60695C);
-  late Color persianGreen = Color(0xFF1B998B);
-  late Color white = Color(0xFFFFFFFF);
+  late Color accent1 = const Color(0x4C4B39EF);
+  late Color accent2 = const Color(0x4D39D2C0);
+  late Color accent3 = const Color(0x4DEE8B60);
+  late Color accent4 = const Color(0xCCFFFFFF);
+  late Color success = const Color(0xFF249689);
+  late Color warning = const Color(0xFFF9CF58);
+  late Color error = const Color(0xFFFF5963);
+  late Color info = const Color(0xFFFFFFFF);
 }
 
 abstract class Typography {
@@ -175,111 +181,137 @@ class ThemeTypography extends Typography {
 
   final FlutterFlowTheme theme;
 
-  String get displayLargeFamily => 'Manrope';
+  String get displayLargeFamily => 'Outfit';
   TextStyle get displayLarge => GoogleFonts.getFont(
-        'Manrope',
+        'Outfit',
         color: theme.primaryText,
-        fontWeight: FontWeight.w900,
-        fontSize: 57.0,
+        fontWeight: FontWeight.normal,
+        fontSize: 64.0,
       );
-  String get displayMediumFamily => 'Manrope';
+  String get displayMediumFamily => 'Outfit';
   TextStyle get displayMedium => GoogleFonts.getFont(
-        'Manrope',
+        'Outfit',
+        color: theme.primaryText,
+        fontWeight: FontWeight.normal,
+        fontSize: 44.0,
+      );
+  String get displaySmallFamily => 'Outfit';
+  TextStyle get displaySmall => GoogleFonts.getFont(
+        'Outfit',
         color: theme.primaryText,
         fontWeight: FontWeight.w600,
-        fontSize: 45.0,
-      );
-  String get displaySmallFamily => 'Manrope';
-  TextStyle get displaySmall => GoogleFonts.getFont(
-        'Manrope',
-        color: theme.primaryText,
-        fontWeight: FontWeight.normal,
         fontSize: 36.0,
       );
-  String get headlineLargeFamily => 'Manrope';
+  String get headlineLargeFamily => 'Outfit';
   TextStyle get headlineLarge => GoogleFonts.getFont(
-        'Manrope',
+        'Outfit',
         color: theme.primaryText,
-        fontWeight: FontWeight.w900,
+        fontWeight: FontWeight.w600,
         fontSize: 32.0,
       );
-  String get headlineMediumFamily => 'Manrope';
+  String get headlineMediumFamily => 'Outfit';
   TextStyle get headlineMedium => GoogleFonts.getFont(
-        'Manrope',
-        color: theme.primaryText,
-        fontWeight: FontWeight.normal,
-        fontSize: 28.0,
-      );
-  String get headlineSmallFamily => 'Manrope';
-  TextStyle get headlineSmall => GoogleFonts.getFont(
-        'Manrope',
+        'Outfit',
         color: theme.primaryText,
         fontWeight: FontWeight.normal,
         fontSize: 24.0,
       );
-  String get titleLargeFamily => 'Manrope';
-  TextStyle get titleLarge => GoogleFonts.getFont(
-        'Manrope',
+  String get headlineSmallFamily => 'Outfit';
+  TextStyle get headlineSmall => GoogleFonts.getFont(
+        'Outfit',
         color: theme.primaryText,
-        fontWeight: FontWeight.w900,
+        fontWeight: FontWeight.w500,
+        fontSize: 24.0,
+      );
+  String get titleLargeFamily => 'Outfit';
+  TextStyle get titleLarge => GoogleFonts.getFont(
+        'Outfit',
+        color: theme.primaryText,
+        fontWeight: FontWeight.w500,
         fontSize: 22.0,
       );
-  String get titleMediumFamily => 'Manrope';
+  String get titleMediumFamily => 'Readex Pro';
   TextStyle get titleMedium => GoogleFonts.getFont(
-        'Manrope',
-        color: theme.primaryText,
-        fontWeight: FontWeight.w500,
-        fontSize: 16.0,
+        'Readex Pro',
+        color: theme.info,
+        fontWeight: FontWeight.normal,
+        fontSize: 18.0,
       );
-  String get titleSmallFamily => 'Manrope';
+  String get titleSmallFamily => 'Readex Pro';
   TextStyle get titleSmall => GoogleFonts.getFont(
-        'Manrope',
-        color: theme.primaryText,
+        'Readex Pro',
+        color: theme.info,
         fontWeight: FontWeight.w500,
-        fontSize: 14.0,
+        fontSize: 16.0,
       );
-  String get labelLargeFamily => 'Manrope';
+  String get labelLargeFamily => 'Readex Pro';
   TextStyle get labelLarge => GoogleFonts.getFont(
-        'Manrope',
-        color: theme.primaryText,
-        fontWeight: FontWeight.w900,
+        'Readex Pro',
+        color: theme.secondaryText,
+        fontWeight: FontWeight.normal,
+        fontSize: 16.0,
+      );
+  String get labelMediumFamily => 'Readex Pro';
+  TextStyle get labelMedium => GoogleFonts.getFont(
+        'Readex Pro',
+        color: theme.secondaryText,
+        fontWeight: FontWeight.normal,
         fontSize: 14.0,
       );
-  String get labelMediumFamily => 'Manrope';
-  TextStyle get labelMedium => GoogleFonts.getFont(
-        'Manrope',
-        color: theme.primaryText,
-        fontWeight: FontWeight.w500,
+  String get labelSmallFamily => 'Readex Pro';
+  TextStyle get labelSmall => GoogleFonts.getFont(
+        'Readex Pro',
+        color: theme.secondaryText,
+        fontWeight: FontWeight.normal,
         fontSize: 12.0,
       );
-  String get labelSmallFamily => 'Manrope';
-  TextStyle get labelSmall => GoogleFonts.getFont(
-        'Manrope',
-        color: theme.primaryText,
-        fontWeight: FontWeight.w500,
-        fontSize: 11.0,
-      );
-  String get bodyLargeFamily => 'Manrope';
+  String get bodyLargeFamily => 'Readex Pro';
   TextStyle get bodyLarge => GoogleFonts.getFont(
-        'Manrope',
+        'Readex Pro',
         color: theme.primaryText,
         fontWeight: FontWeight.normal,
         fontSize: 16.0,
       );
-  String get bodyMediumFamily => 'Manrope';
+  String get bodyMediumFamily => 'Readex Pro';
   TextStyle get bodyMedium => GoogleFonts.getFont(
-        'Manrope',
+        'Readex Pro',
         color: theme.primaryText,
         fontWeight: FontWeight.normal,
         fontSize: 14.0,
       );
-  String get bodySmallFamily => 'Manrope';
+  String get bodySmallFamily => 'Readex Pro';
   TextStyle get bodySmall => GoogleFonts.getFont(
-        'Manrope',
+        'Readex Pro',
         color: theme.primaryText,
         fontWeight: FontWeight.normal,
         fontSize: 12.0,
       );
+}
+
+class DarkModeTheme extends FlutterFlowTheme {
+  @Deprecated('Use primary instead')
+  Color get primaryColor => primary;
+  @Deprecated('Use secondary instead')
+  Color get secondaryColor => secondary;
+  @Deprecated('Use tertiary instead')
+  Color get tertiaryColor => tertiary;
+
+  late Color primary = const Color(0xFF4B39EF);
+  late Color secondary = const Color(0xFF39D2C0);
+  late Color tertiary = const Color(0xFFEE8B60);
+  late Color alternate = const Color(0xFF262D34);
+  late Color primaryText = const Color(0xFFFFFFFF);
+  late Color secondaryText = const Color(0xFF95A1AC);
+  late Color primaryBackground = const Color(0xFF1D2428);
+  late Color secondaryBackground = const Color(0xFF14181B);
+  late Color accent1 = const Color(0x4C4B39EF);
+  late Color accent2 = const Color(0x4D39D2C0);
+  late Color accent3 = const Color(0x4DEE8B60);
+  late Color accent4 = const Color(0xB2262D34);
+  late Color success = const Color(0xFF249689);
+  late Color warning = const Color(0xFFF9CF58);
+  late Color error = const Color(0xFFFF5963);
+  late Color info = const Color(0xFFFFFFFF);
 }
 
 extension TextStyleHelper on TextStyle {

@@ -78,11 +78,11 @@ class RegistroSensorStruct extends BaseStruct {
       RegistroSensorStruct(
         tipoSensor: TipoSensorStruct.maybeFromMap(data['tipo_sensor']),
         zonaSensor: ZonaSensorStruct.maybeFromMap(data['zona_sensor']),
-        numeroSensor: data['numero_sensor'] as int?,
+        numeroSensor: castToType<int>(data['numero_sensor']),
         valor: castToType<double>(data['valor']),
         unidadMedida: UnidadMedidaStruct.maybeFromMap(data['unidad_medida']),
         fecha: data['fecha'] as String?,
-        id: data['id'] as int?,
+        id: castToType<int>(data['id']),
       );
 
   static RegistroSensorStruct? maybeFromMap(dynamic data) =>
@@ -132,13 +132,13 @@ class RegistroSensorStruct extends BaseStruct {
 
   static RegistroSensorStruct fromSerializableMap(Map<String, dynamic> data) =>
       RegistroSensorStruct(
-        tipoSensor: deserializeParam(
+        tipoSensor: deserializeStructParam(
           data['tipo_sensor'],
           ParamType.DataStruct,
           false,
           structBuilder: TipoSensorStruct.fromSerializableMap,
         ),
-        zonaSensor: deserializeParam(
+        zonaSensor: deserializeStructParam(
           data['zona_sensor'],
           ParamType.DataStruct,
           false,
@@ -154,7 +154,7 @@ class RegistroSensorStruct extends BaseStruct {
           ParamType.double,
           false,
         ),
-        unidadMedida: deserializeParam(
+        unidadMedida: deserializeStructParam(
           data['unidad_medida'],
           ParamType.DataStruct,
           false,
@@ -174,6 +174,22 @@ class RegistroSensorStruct extends BaseStruct {
 
   @override
   String toString() => 'RegistroSensorStruct(${toMap()})';
+
+  @override
+  bool operator ==(Object other) {
+    return other is RegistroSensorStruct &&
+        tipoSensor == other.tipoSensor &&
+        zonaSensor == other.zonaSensor &&
+        numeroSensor == other.numeroSensor &&
+        valor == other.valor &&
+        unidadMedida == other.unidadMedida &&
+        fecha == other.fecha &&
+        id == other.id;
+  }
+
+  @override
+  int get hashCode => const ListEquality().hash(
+      [tipoSensor, zonaSensor, numeroSensor, valor, unidadMedida, fecha, id]);
 }
 
 RegistroSensorStruct createRegistroSensorStruct({
