@@ -13,12 +13,14 @@ class RegistroSensorStruct extends BaseStruct {
     double? valor,
     UnidadMedidaStruct? unidadMedida,
     String? fecha,
+    int? id,
   })  : _tipoSensor = tipoSensor,
         _zonaSensor = zonaSensor,
         _numeroSensor = numeroSensor,
         _valor = valor,
         _unidadMedida = unidadMedida,
-        _fecha = fecha;
+        _fecha = fecha,
+        _id = id;
 
   // "tipo_sensor" field.
   TipoSensorStruct? _tipoSensor;
@@ -65,14 +67,22 @@ class RegistroSensorStruct extends BaseStruct {
   set fecha(String? val) => _fecha = val;
   bool hasFecha() => _fecha != null;
 
+  // "id" field.
+  int? _id;
+  int get id => _id ?? 0;
+  set id(int? val) => _id = val;
+  void incrementId(int amount) => _id = id + amount;
+  bool hasId() => _id != null;
+
   static RegistroSensorStruct fromMap(Map<String, dynamic> data) =>
       RegistroSensorStruct(
         tipoSensor: TipoSensorStruct.maybeFromMap(data['tipo_sensor']),
         zonaSensor: ZonaSensorStruct.maybeFromMap(data['zona_sensor']),
-        numeroSensor: data['numero_sensor'] as int?,
+        numeroSensor: castToType<int>(data['numero_sensor']),
         valor: castToType<double>(data['valor']),
         unidadMedida: UnidadMedidaStruct.maybeFromMap(data['unidad_medida']),
         fecha: data['fecha'] as String?,
+        id: castToType<int>(data['id']),
       );
 
   static RegistroSensorStruct? maybeFromMap(dynamic data) =>
@@ -85,6 +95,7 @@ class RegistroSensorStruct extends BaseStruct {
         'valor': _valor,
         'unidad_medida': _unidadMedida?.toMap(),
         'fecha': _fecha,
+        'id': _id,
       }.withoutNulls;
 
   @override
@@ -113,17 +124,21 @@ class RegistroSensorStruct extends BaseStruct {
           _fecha,
           ParamType.String,
         ),
+        'id': serializeParam(
+          _id,
+          ParamType.int,
+        ),
       }.withoutNulls;
 
   static RegistroSensorStruct fromSerializableMap(Map<String, dynamic> data) =>
       RegistroSensorStruct(
-        tipoSensor: deserializeParam(
+        tipoSensor: deserializeStructParam(
           data['tipo_sensor'],
           ParamType.DataStruct,
           false,
           structBuilder: TipoSensorStruct.fromSerializableMap,
         ),
-        zonaSensor: deserializeParam(
+        zonaSensor: deserializeStructParam(
           data['zona_sensor'],
           ParamType.DataStruct,
           false,
@@ -139,7 +154,7 @@ class RegistroSensorStruct extends BaseStruct {
           ParamType.double,
           false,
         ),
-        unidadMedida: deserializeParam(
+        unidadMedida: deserializeStructParam(
           data['unidad_medida'],
           ParamType.DataStruct,
           false,
@@ -150,10 +165,31 @@ class RegistroSensorStruct extends BaseStruct {
           ParamType.String,
           false,
         ),
+        id: deserializeParam(
+          data['id'],
+          ParamType.int,
+          false,
+        ),
       );
 
   @override
   String toString() => 'RegistroSensorStruct(${toMap()})';
+
+  @override
+  bool operator ==(Object other) {
+    return other is RegistroSensorStruct &&
+        tipoSensor == other.tipoSensor &&
+        zonaSensor == other.zonaSensor &&
+        numeroSensor == other.numeroSensor &&
+        valor == other.valor &&
+        unidadMedida == other.unidadMedida &&
+        fecha == other.fecha &&
+        id == other.id;
+  }
+
+  @override
+  int get hashCode => const ListEquality().hash(
+      [tipoSensor, zonaSensor, numeroSensor, valor, unidadMedida, fecha, id]);
 }
 
 RegistroSensorStruct createRegistroSensorStruct({
@@ -163,6 +199,7 @@ RegistroSensorStruct createRegistroSensorStruct({
   double? valor,
   UnidadMedidaStruct? unidadMedida,
   String? fecha,
+  int? id,
 }) =>
     RegistroSensorStruct(
       tipoSensor: tipoSensor ?? TipoSensorStruct(),
@@ -171,4 +208,5 @@ RegistroSensorStruct createRegistroSensorStruct({
       valor: valor,
       unidadMedida: unidadMedida ?? UnidadMedidaStruct(),
       fecha: fecha,
+      id: id,
     );

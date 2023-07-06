@@ -7,16 +7,16 @@ import '/flutter_flow/flutter_flow_util.dart';
 
 class TipoMedidaStruct extends BaseStruct {
   TipoMedidaStruct({
-    String? str,
+    String? nombre,
     String? tipo,
-  })  : _str = str,
+  })  : _nombre = nombre,
         _tipo = tipo;
 
-  // "str" field.
-  String? _str;
-  String get str => _str ?? '';
-  set str(String? val) => _str = val;
-  bool hasStr() => _str != null;
+  // "nombre" field.
+  String? _nombre;
+  String get nombre => _nombre ?? '';
+  set nombre(String? val) => _nombre = val;
+  bool hasNombre() => _nombre != null;
 
   // "tipo" field.
   String? _tipo;
@@ -26,7 +26,7 @@ class TipoMedidaStruct extends BaseStruct {
 
   static TipoMedidaStruct fromMap(Map<String, dynamic> data) =>
       TipoMedidaStruct(
-        str: data['str'] as String?,
+        nombre: data['nombre'] as String?,
         tipo: data['tipo'] as String?,
       );
 
@@ -34,14 +34,14 @@ class TipoMedidaStruct extends BaseStruct {
       data is Map<String, dynamic> ? TipoMedidaStruct.fromMap(data) : null;
 
   Map<String, dynamic> toMap() => {
-        'str': _str,
+        'nombre': _nombre,
         'tipo': _tipo,
       }.withoutNulls;
 
   @override
   Map<String, dynamic> toSerializableMap() => {
-        'str': serializeParam(
-          _str,
+        'nombre': serializeParam(
+          _nombre,
           ParamType.String,
         ),
         'tipo': serializeParam(
@@ -52,8 +52,8 @@ class TipoMedidaStruct extends BaseStruct {
 
   static TipoMedidaStruct fromSerializableMap(Map<String, dynamic> data) =>
       TipoMedidaStruct(
-        str: deserializeParam(
-          data['str'],
+        nombre: deserializeParam(
+          data['nombre'],
           ParamType.String,
           false,
         ),
@@ -66,13 +66,23 @@ class TipoMedidaStruct extends BaseStruct {
 
   @override
   String toString() => 'TipoMedidaStruct(${toMap()})';
+
+  @override
+  bool operator ==(Object other) {
+    return other is TipoMedidaStruct &&
+        nombre == other.nombre &&
+        tipo == other.tipo;
+  }
+
+  @override
+  int get hashCode => const ListEquality().hash([nombre, tipo]);
 }
 
 TipoMedidaStruct createTipoMedidaStruct({
-  String? str,
+  String? nombre,
   String? tipo,
 }) =>
     TipoMedidaStruct(
-      str: str,
+      nombre: nombre,
       tipo: tipo,
     );

@@ -7,16 +7,16 @@ import '/flutter_flow/flutter_flow_util.dart';
 
 class TipoSensorStruct extends BaseStruct {
   TipoSensorStruct({
-    String? str,
+    String? nombre,
     String? tipo,
-  })  : _str = str,
+  })  : _nombre = nombre,
         _tipo = tipo;
 
-  // "str" field.
-  String? _str;
-  String get str => _str ?? '';
-  set str(String? val) => _str = val;
-  bool hasStr() => _str != null;
+  // "nombre" field.
+  String? _nombre;
+  String get nombre => _nombre ?? '';
+  set nombre(String? val) => _nombre = val;
+  bool hasNombre() => _nombre != null;
 
   // "tipo" field.
   String? _tipo;
@@ -26,7 +26,7 @@ class TipoSensorStruct extends BaseStruct {
 
   static TipoSensorStruct fromMap(Map<String, dynamic> data) =>
       TipoSensorStruct(
-        str: data['str'] as String?,
+        nombre: data['nombre'] as String?,
         tipo: data['tipo'] as String?,
       );
 
@@ -34,14 +34,14 @@ class TipoSensorStruct extends BaseStruct {
       data is Map<String, dynamic> ? TipoSensorStruct.fromMap(data) : null;
 
   Map<String, dynamic> toMap() => {
-        'str': _str,
+        'nombre': _nombre,
         'tipo': _tipo,
       }.withoutNulls;
 
   @override
   Map<String, dynamic> toSerializableMap() => {
-        'str': serializeParam(
-          _str,
+        'nombre': serializeParam(
+          _nombre,
           ParamType.String,
         ),
         'tipo': serializeParam(
@@ -52,8 +52,8 @@ class TipoSensorStruct extends BaseStruct {
 
   static TipoSensorStruct fromSerializableMap(Map<String, dynamic> data) =>
       TipoSensorStruct(
-        str: deserializeParam(
-          data['str'],
+        nombre: deserializeParam(
+          data['nombre'],
           ParamType.String,
           false,
         ),
@@ -66,13 +66,23 @@ class TipoSensorStruct extends BaseStruct {
 
   @override
   String toString() => 'TipoSensorStruct(${toMap()})';
+
+  @override
+  bool operator ==(Object other) {
+    return other is TipoSensorStruct &&
+        nombre == other.nombre &&
+        tipo == other.tipo;
+  }
+
+  @override
+  int get hashCode => const ListEquality().hash([nombre, tipo]);
 }
 
 TipoSensorStruct createTipoSensorStruct({
-  String? str,
+  String? nombre,
   String? tipo,
 }) =>
     TipoSensorStruct(
-      str: str,
+      nombre: nombre,
       tipo: tipo,
     );

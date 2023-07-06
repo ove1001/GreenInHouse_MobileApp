@@ -12,22 +12,32 @@ const _kPrivateApiFunctionName = 'ffPrivateApiCall';
 /// Start RegistrosSensores Group Code
 
 class RegistrosSensoresGroup {
-  static String baseUrl = 'http://greeninhouse:5000/api/v1/RegistrosSensores';
+  static String baseUrl = 'http://192.168.1.240:5000/api/v1/RegistrosSensores';
   static Map<String, String> headers = {};
-  static GetRegistroSensorOneCall getRegistroSensorOneCall =
-      GetRegistroSensorOneCall();
-  static GetRegistroSensorAllCall getRegistroSensorAllCall =
-      GetRegistroSensorAllCall();
-  static GetRegistroSensorAllFromSensorCall getRegistroSensorAllFromSensorCall =
-      GetRegistroSensorAllFromSensorCall();
+  static RegistrosSensoresGetOneCall registrosSensoresGetOneCall =
+      RegistrosSensoresGetOneCall();
+  static RegistrosSensoresGetAllCall registrosSensoresGetAllCall =
+      RegistrosSensoresGetAllCall();
+  static RegistrosSensoresGetAllFromPlantToGraphCall
+      registrosSensoresGetAllFromPlantToGraphCall =
+      RegistrosSensoresGetAllFromPlantToGraphCall();
+  static RegistrosSensoresGetAllFromPlantCall
+      registrosSensoresGetAllFromPlantCall =
+      RegistrosSensoresGetAllFromPlantCall();
+  static AvgFromPlantAgroupByIntervalsToGraphCall
+      avgFromPlantAgroupByIntervalsToGraphCall =
+      AvgFromPlantAgroupByIntervalsToGraphCall();
+  static RegistrosSensoresAllFromPlantBetweenDatesToGraphCall
+      registrosSensoresAllFromPlantBetweenDatesToGraphCall =
+      RegistrosSensoresAllFromPlantBetweenDatesToGraphCall();
 }
 
-class GetRegistroSensorOneCall {
+class RegistrosSensoresGetOneCall {
   Future<ApiCallResponse> call({
-    int? rsid,
+    int? rsid = 1,
   }) {
     return ApiManager.instance.makeApiCall(
-      callName: 'GetRegistroSensorOne',
+      callName: 'RegistrosSensoresGetOne',
       apiUrl: '${RegistrosSensoresGroup.baseUrl}/One',
       callType: ApiCallType.GET,
       headers: {
@@ -42,41 +52,12 @@ class GetRegistroSensorOneCall {
       cache: false,
     );
   }
-
-  dynamic id(dynamic response) => getJsonField(
-        response,
-        r'''$[:].id__''',
-      );
-  dynamic numeroSensor(dynamic response) => getJsonField(
-        response,
-        r'''$[:].numero_sensor''',
-      );
-  dynamic tipoSensor(dynamic response) => getJsonField(
-        response,
-        r'''$[:].tipo_sensor''',
-      );
-  dynamic unidadMedida(dynamic response) => getJsonField(
-        response,
-        r'''$[:].unidad_medida''',
-      );
-  dynamic valor(dynamic response) => getJsonField(
-        response,
-        r'''$[:].valor''',
-      );
-  dynamic zonaSensor(dynamic response) => getJsonField(
-        response,
-        r'''$[:].zona_sensor''',
-      );
-  dynamic fecha(dynamic response) => getJsonField(
-        response,
-        r'''$[:].fecha''',
-      );
 }
 
-class GetRegistroSensorAllCall {
+class RegistrosSensoresGetAllCall {
   Future<ApiCallResponse> call() {
     return ApiManager.instance.makeApiCall(
-      callName: 'GetRegistroSensorAll',
+      callName: 'RegistrosSensoresGetAll',
       apiUrl: '${RegistrosSensoresGroup.baseUrl}/All',
       callType: ApiCallType.GET,
       headers: {
@@ -91,13 +72,13 @@ class GetRegistroSensorAllCall {
   }
 }
 
-class GetRegistroSensorAllFromSensorCall {
+class RegistrosSensoresGetAllFromPlantToGraphCall {
   Future<ApiCallResponse> call({
     String? np = '',
   }) {
     return ApiManager.instance.makeApiCall(
-      callName: 'GetRegistroSensorAllFromSensor',
-      apiUrl: '${RegistrosSensoresGroup.baseUrl}/All/FromSensor',
+      callName: 'RegistrosSensoresGetAllFromPlantToGraph',
+      apiUrl: '${RegistrosSensoresGroup.baseUrl}/All/FromPlant/ToGraph',
       callType: ApiCallType.GET,
       headers: {
         ...RegistrosSensoresGroup.headers,
@@ -113,7 +94,191 @@ class GetRegistroSensorAllFromSensorCall {
   }
 }
 
+class RegistrosSensoresGetAllFromPlantCall {
+  Future<ApiCallResponse> call({
+    String? np = '',
+  }) {
+    return ApiManager.instance.makeApiCall(
+      callName: 'RegistrosSensoresGetAllFromPlant',
+      apiUrl: '${RegistrosSensoresGroup.baseUrl}/All/FromPlant',
+      callType: ApiCallType.GET,
+      headers: {
+        ...RegistrosSensoresGroup.headers,
+      },
+      params: {
+        'np': np,
+      },
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+    );
+  }
+}
+
+class AvgFromPlantAgroupByIntervalsToGraphCall {
+  Future<ApiCallResponse> call({
+    String? np = '',
+    int? d,
+  }) {
+    return ApiManager.instance.makeApiCall(
+      callName: 'AvgFromPlantAgroupByIntervalsToGraph',
+      apiUrl:
+          '${RegistrosSensoresGroup.baseUrl}/Avg/FromPlant/AgroupByIntervals/ToGraph',
+      callType: ApiCallType.GET,
+      headers: {
+        ...RegistrosSensoresGroup.headers,
+      },
+      params: {
+        'np': np,
+        'd': d,
+      },
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+    );
+  }
+}
+
+class RegistrosSensoresAllFromPlantBetweenDatesToGraphCall {
+  Future<ApiCallResponse> call({
+    String? np = '',
+    String? fi = '',
+    String? ff = '',
+  }) {
+    return ApiManager.instance.makeApiCall(
+      callName: 'RegistrosSensoresAllFromPlantBetweenDatesToGraph',
+      apiUrl:
+          '${RegistrosSensoresGroup.baseUrl}/All/FromPlant/BetweenDates/ToGraph',
+      callType: ApiCallType.GET,
+      headers: {
+        ...RegistrosSensoresGroup.headers,
+      },
+      params: {
+        'np': np,
+        'fi': fi,
+        'ff': ff,
+      },
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+    );
+  }
+}
+
 /// End RegistrosSensores Group Code
+
+/// Start TipoPlanta Group Code
+
+class TipoPlantaGroup {
+  static String baseUrl = '192.168.1.240:5000/api/v1/TiplosPlantas';
+  static Map<String, String> headers = {};
+  static TipoPlantaGetOneCall tipoPlantaGetOneCall = TipoPlantaGetOneCall();
+  static TipoPlantaGetAllCall tipoPlantaGetAllCall = TipoPlantaGetAllCall();
+  static TipoPlantaPostOneCall tipoPlantaPostOneCall = TipoPlantaPostOneCall();
+  static TipoPlantaUpdateOneCall tipoPlantaUpdateOneCall =
+      TipoPlantaUpdateOneCall();
+}
+
+class TipoPlantaGetOneCall {
+  Future<ApiCallResponse> call({
+    String? ntp = '',
+  }) {
+    return ApiManager.instance.makeApiCall(
+      callName: 'TipoPlantaGetOne',
+      apiUrl: '${TipoPlantaGroup.baseUrl}/One',
+      callType: ApiCallType.GET,
+      headers: {
+        ...TipoPlantaGroup.headers,
+      },
+      params: {
+        'ntp': ntp,
+      },
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+    );
+  }
+}
+
+class TipoPlantaGetAllCall {
+  Future<ApiCallResponse> call() {
+    return ApiManager.instance.makeApiCall(
+      callName: 'TipoPlantaGetAll',
+      apiUrl: '${TipoPlantaGroup.baseUrl}/All',
+      callType: ApiCallType.GET,
+      headers: {
+        ...TipoPlantaGroup.headers,
+      },
+      params: {},
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+    );
+  }
+}
+
+class TipoPlantaPostOneCall {
+  Future<ApiCallResponse> call({
+    String? ntp = '',
+    String? dtp = '',
+  }) {
+    final body = '''
+{
+  "descripcion_planta": "${dtp}",
+  "tipo_planta": "${ntp}"
+}''';
+    return ApiManager.instance.makeApiCall(
+      callName: 'TipoPlantaPostOne',
+      apiUrl: '${TipoPlantaGroup.baseUrl}/One',
+      callType: ApiCallType.POST,
+      headers: {
+        ...TipoPlantaGroup.headers,
+      },
+      params: {},
+      body: body,
+      bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+    );
+  }
+}
+
+class TipoPlantaUpdateOneCall {
+  Future<ApiCallResponse> call({
+    String? ntp = '',
+    String? dtp = '',
+  }) {
+    final body = '''
+{
+  "descripcion_planta": "${dtp}",
+  "tipo_planta": "${ntp}"
+}''';
+    return ApiManager.instance.makeApiCall(
+      callName: 'TipoPlantaUpdateOne',
+      apiUrl: '${TipoPlantaGroup.baseUrl}/One',
+      callType: ApiCallType.PUT,
+      headers: {
+        ...TipoPlantaGroup.headers,
+      },
+      params: {},
+      body: body,
+      bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+    );
+  }
+}
+
+/// End TipoPlanta Group Code
 
 class ApiPagingParams {
   int nextPageNumber = 0;
@@ -140,11 +305,11 @@ String _serializeList(List? list) {
   }
 }
 
-String _serializeJson(dynamic jsonVar) {
-  jsonVar ??= {};
+String _serializeJson(dynamic jsonVar, [bool isList = false]) {
+  jsonVar ??= (isList ? [] : {});
   try {
     return json.encode(jsonVar);
   } catch (_) {
-    return '{}';
+    return isList ? '[]' : '{}';
   }
 }
